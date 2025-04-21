@@ -1,0 +1,90 @@
+/* Header - Versión corregida */
+.app-header {
+    width: 100%;
+    background: linear-gradient(135deg, #0709ab 0%, #2196f3 100%) !important;
+    box-shadow: 0 2px 4px rgba(254, 249, 249, 0.1);
+    padding: 4rem 5rem;
+    position: fixed;
+    top: 0;
+    z-index: 2000;
+    transition: all 0.3s ease;
+
+    
+  }
+  
+  .header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .header-title-container {
+    
+    display: flex;
+    align-items: center;
+    position: absolute;
+    left: 33%;
+    transform: translateX(-50%);
+  }
+  
+  .header-logo-image {
+    height: 80px;
+    margin-right: -9px;
+  }
+  
+  .header-title-text {
+    font-family: "Arial", sans-serif;
+    font-size: 1.5rem;
+    margin: 0;
+    color: #ffffff;
+    white-space: nowrap;
+  }
+  
+  /* Menú hamburguesa blanco */
+  .menu-button {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    color: white;
+  }
+  
+  .header-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .dark-mode-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    color: white;
+  }
+  
+  /* Botón de cerrar sesión visible */
+  .logout-button {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    color: white;
+    display: flex;
+    align-items: center;
+  }
+  
+  .logout-icon {
+    font-size: 1.3rem;
+    margin-left: 5px;
+  }
+  
+  /* Estilos para modo oscuro */
+  .dark-mode .app-header {
+    background-color: #0709ab !important; /* Mantenemos el azul en modo oscuro */
+  }
