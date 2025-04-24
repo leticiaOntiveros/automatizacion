@@ -92,7 +92,7 @@ export default function AutomatizacionesSTOLForm() {
   const API_BASE_URL =
     "https://theoriginallab-automatizacionestol-back.m0oqwu.easypanel.host";
   const API_KEY = "lety";
-  const tableName = "automatizaciones";
+  const tableName = "formulario";
   const CORS_ANYWHERE_URL = "https://cors-anywhere.herokuapp.com/";
 
   const filteredItems = automatizaciones.filter(
@@ -1249,7 +1249,7 @@ export default function AutomatizacionesSTOLForm() {
                     {item.estado}
                   </span>
                 </td>
-                <td>{item.template || "-"}</td>
+                <td>{item.template}</td>
                 <td>
                   <div className="flex gap-2">
                     <button
