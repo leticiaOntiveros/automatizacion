@@ -15,11 +15,19 @@ import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import ImageIcon from "@mui/icons-material/Image";
 import CloseIcon from "@mui/icons-material/Close";
-import { Grid } from "@mui/material";
-import Typography from "@mui/material/Typography";
+import {
+  Grid,
+  Card,
+  CardActionArea,
+  CardMedia,
+  CardContent,
+  Radio,
+  Typography,
+} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import CircularProgress from "@mui/material/CircularProgress";
 import SendIcon from "@mui/icons-material/Send";
+import ImageRadioSelector from './imageRadioSelector';
 
 export default function AutomatizacionesSTOLForm() {
   const [automatizaciones, setAutomatizaciones] = useState([]);
@@ -35,7 +43,28 @@ export default function AutomatizacionesSTOLForm() {
     fecha_ingreso: "",
     codigo_barras: "",
     estado: "Oferta",
+    template: "", // Nuevo campo para el template
   });
+
+  // Opciones para los templates
+  const templateOptions = [
+    {
+      id: "basico",
+      label: "Básico",
+      image: "https://m.media-amazon.com/images/I/611Z8E4usUL._AC_UL480_FMwebp_QL65_.jpg?text=Template+Basico",
+    },
+    {
+      id: "avanzado",
+      label: "Avanzado",
+      image: "https://m.media-amazon.com/images/I/61YrDwqkEtL._AC_UL480_FMwebp_QL65_.jpg",
+    },
+    {
+      id: "premium",
+      label: "Premium",
+      image: "https://m.media-amazon.com/images/I/71bCyrY3jCL._AC_UL480_FMwebp_QL65_.jpg",
+    },
+  ];
+
   const [selectedDate, setSelectedDate] = useState(null);
   const [busqueda, setBusqueda] = useState("");
   const [isEditing, setIsEditing] = useState(false);
@@ -225,7 +254,8 @@ export default function AutomatizacionesSTOLForm() {
       proveedor: "",
       fecha_ingreso: "",
       codigo_barras: "",
-      estado: "activo",
+      estado: "Oferta",
+      template: "",
     });
     setSelectedDate(null);
     setFileLogoEmpresa(null);
@@ -257,7 +287,8 @@ export default function AutomatizacionesSTOLForm() {
         proveedor: item.proveedor || "",
         fecha_ingreso: item.fecha_ingreso || "",
         codigo_barras: item.codigo_barras || "",
-        estado: item.estado || "activo",
+        estado: item.estado || "Oferta",
+        template: item.template || "",
       }));
 
       setAutomatizaciones(itemsWithId);
@@ -416,6 +447,13 @@ export default function AutomatizacionesSTOLForm() {
         imagen: "",
       });
     }
+  };
+
+  const handleTemplateChange = (selectedTemplate) => {
+    setFormData((prev) => ({
+      ...prev,
+      template: selectedTemplate,
+    }));
   };
 
   const handleDelete = async (id_automatizaciones) => {
@@ -657,6 +695,12 @@ export default function AutomatizacionesSTOLForm() {
                   <Grid item xs={6}>
                     <Typography>
                       <strong>Estado:</strong> {currentAutomatizacion.estado}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography>
+                      <strong>Template:</strong>{" "}
+                      {currentAutomatizacion.template || "No especificado"}
                     </Typography>
                   </Grid>
                 </Grid>
@@ -1083,14 +1127,14 @@ export default function AutomatizacionesSTOLForm() {
                 formData.estado
                   ? {
                       value: formData.estado,
-                      label: formData.estado, // Muestra el valor directamente
+                      label: formData.estado,
                     }
                   : null
               }
               onChange={(selectedOption) =>
                 setFormData({
                   ...formData,
-                  estado: selectedOption?.value || "Oferta", // Valor por defecto
+                  estado: selectedOption?.value || "Oferta",
                 })
               }
               className="w-full"
@@ -1098,6 +1142,25 @@ export default function AutomatizacionesSTOLForm() {
             />
           </div>
         </div>
+
+        {/* Sección de Templates */}
+<div className="mb-4">
+  <label className="block text-gray-700 text-sm font-medium mb-2">
+    Plantilla:
+  </label>
+  <div id="template-selector-container"></div>
+  <ImageRadioSelector
+    containerId="template-selector-container"
+    options={templateOptions.map(option => ({
+      value: option.id,
+      imgSrc: option.image,
+      alt: option.label,
+      checked: formData.template === option.id
+    }))}
+    name="template-radio"
+    onChange={handleTemplateChange}
+  />
+</div>
 
         <div className="flex gap-2">
           <button
@@ -1162,6 +1225,7 @@ export default function AutomatizacionesSTOLForm() {
               <th>Logo Empresa</th>
               <th>Imagen Producto</th>
               <th>Estado</th>
+              <th>Template</th>
               <th>Acciones</th>
             </tr>
           </thead>
@@ -1185,6 +1249,7 @@ export default function AutomatizacionesSTOLForm() {
                     {item.estado}
                   </span>
                 </td>
+                <td>{item.template || "-"}</td>
                 <td>
                   <div className="flex gap-2">
                     <button
@@ -1250,7 +1315,7 @@ export default function AutomatizacionesSTOLForm() {
                     <button
                       onClick={async () => {
                         try {
-                          console.log("Enviando item a la API:", item); // Imprime en consola
+                          console.log("Enviando item a la API:", item);
                           const response = await fetch(
                             "https://hook.us2.make.com/mr4jjtjadaouska8da6ed24bo7px20xg",
                             {
@@ -1258,7 +1323,7 @@ export default function AutomatizacionesSTOLForm() {
                               headers: {
                                 "Content-Type": "application/json",
                               },
-                              body: JSON.stringify(item), // Envía el item completo como JSON
+                              body: JSON.stringify(item),
                             }
                           );
 
@@ -1276,7 +1341,7 @@ export default function AutomatizacionesSTOLForm() {
                         color: "#0447fb",
                         cursor: "pointer",
                         padding: "4px",
-                        transition: "color 0.2s ease", // Para transición suave del color
+                        transition: "color 0.2s ease",
                       }}
                       onMouseOver={(e) =>
                         (e.currentTarget.style.color = "#3b82f6")
