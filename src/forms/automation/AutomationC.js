@@ -13,7 +13,7 @@ export default function AutomationC() {
           {/* Pestañas */}
           <div className="tabs">
             <button
-              className="button-recargar"
+              className="button button-primary"
               onClick={() => setActiveTab('AutomationForm')}
             >
               Datos de automatizacion

@@ -1,0 +1,148 @@
+.carousel-container {
+    width: 100%;
+    margin: 25px 0 40px 0;
+  }
+  
+  .carousel-label {
+    display: block;
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+  }
+  
+  .carousel-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    height: 220px;
+    margin: 0 auto;
+    max-width: 800px;
+  }
+  
+  .carousel-item {
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .carousel-item img {
+    border-radius: 8px;
+    object-fit: contain;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background: white;
+    padding: 5px;
+  }
+  
+  /* Imagen central */
+  .carousel-item.center {
+    z-index: 2;
+    width: 50%;
+    height: 100%;
+  }
+  
+  .carousel-item.center img {
+    width: 100%;
+    height: 85%;
+    border: 2px solid transparent;
+  }
+  
+  .carousel-item.center.selected img {
+    border-color: #134647;
+    box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+  }
+  
+  .template-name {
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #555;
+    text-align: center;
+  }
+  
+  /* Imágenes laterales */
+  .carousel-item.prev, .carousel-item.next {
+    width: 30%;
+    height: 70%;
+    opacity: 0.6;
+    z-index: 1;
+  }
+  
+  .carousel-item.prev {
+    left: 10%;
+    transform: translateX(-50%);
+  }
+  
+  .carousel-item.next {
+    right: 10%;
+    transform: translateX(50%);
+  }
+  
+  .carousel-item.prev img, .carousel-item.next img {
+    width: 100%;
+    height: 100%;
+  }
+  
+  /* Pie del carrusel */
+  .carousel-footer {
+    margin-top: 25px;
+    text-align: center;
+  }
+  
+  .carousel-indicators {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  
+  .indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #ddd;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  
+  .indicator.active {
+    background: #134647;
+    transform: scale(1.2);
+  }
+  
+  .selected-template-name {
+    font-size: 14px;
+    color: #134647;
+    font-weight: 500;
+    margin-top: 5px;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .carousel-wrapper {
+      height: 180px;
+    }
+    
+    .carousel-item.center {
+      width: 60%;
+    }
+    
+    .carousel-item.prev, .carousel-item.next {
+      width: 25%;
+      height: 60%;
+    }
+    
+    .carousel-item.prev {
+      left: 5%;
+    }
+    
+    .carousel-item.next {
+      right: 5%;
+    }
+  }

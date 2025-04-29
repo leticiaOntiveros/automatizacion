@@ -6,7 +6,7 @@ function App() {
   return (
     <div style={{ minHeight: '100vh' }}>
       <Header 
-        title="SISTEMA DE AUTOMATIZACION"
+      title="Sistema de Automatización"
       />
       <div style={{ padding: '20px' }}>
         <AutomationC />

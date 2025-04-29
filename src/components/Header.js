@@ -1,6 +1,5 @@
 import React from "react";
 import "./Header.css";
-import LogoutIcon from "@mui/icons-material/Logout";
 
 const Header = ({ title }) => {
   return (

@@ -1,9 +1,8 @@
 /* ============ VARIABLES Y ESTILOS BASE ============ */
 :root {
   /* Colores principales */
-  --primary: #0709ab;
-  --primary-hover: #3498DB;
-  --secondary: #e0e0e0;
+  --primary-hover: #134647;
+  --secondary: #134647;
   --secondary-hover: #d1d5db;
   --success: #d1fae5;
   --info: #dbeafe;
@@ -42,7 +41,7 @@ body {
   font-family: 'Arial', sans-serif;
   line-height: 1.5;
   color: var(--text-dark);
-  background-color: #f5f7fa;
+  background-color: #000706;
   min-height: 100vh;
 }
 
@@ -58,7 +57,7 @@ body {
 .card {
   width: 100%;
   max-width: 1200px;
-  background-color: white;
+  background-color: #ffffff;
   border-radius: var(--border-radius);
   box-shadow: var(--shadow-lg);
   overflow: hidden;
@@ -88,48 +87,6 @@ body {
 .font-medium { font-weight: 500; }
 .font-semibold { font-weight: 600; }
 
-/* ============ FORMULARIOS ============ */
-.form-container {
-  background-color: #f8f9fa;
-  padding: var(--space-xl);
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow-sm);
-}
-
-.form {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: var(--space-xl);
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-}
-
-.form-group label {
-  font-weight: 500;
-  color: var(--text-dark);
-  font-size: 1rem;
-}
-
-.form-input {
-  width: 100%;
-  height: var(--input-height);
-  padding: 0 var(--input-padding);
-  border: 1px solid var(--border-color);
-  border-radius: var(--border-radius);
-  font-size: 1.1rem;
-  transition: all 0.2s ease;
-  background-color: white;
-}
-
-.form-input:focus {
-  outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 2px rgba(7, 9, 171, 0.1);
-}
 
 /* ============ TABLAS ============ */
 .table-container {
@@ -189,8 +146,9 @@ body {
   background-color: var(--primary-hover);
   transform: translateY(-2px) scale(0.95); /* Añade scale para reducción de tamaño */
   box-shadow: var(--shadow-lg);
-  border-color: rgba(255, 255, 255, 0.3);
+  border-color: #134647;
   transition: all 0.2s ease; /* Transición suave para todos los efectos */
+  position: relative;
 }
 
 .button-secondary {
@@ -286,6 +244,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
+  background-color: #134647;
 }
 
 .file-input-label {
@@ -310,7 +269,7 @@ body {
 
 .file-input:hover {
   border-color: var(--primary);
-  background-color: #f8f9fa;
+  background-color: #134647;
 }
 
 .file-info {
@@ -352,10 +311,10 @@ body {
 }
 
 /* ============ UTILIDADES ============ */
-.mb-2 { margin-bottom: var(--space-sm); }
-.mb-4 { margin-bottom: var(--space-md); }
+.mb-2 { margin-bottom: var(--space-lg); }
+.mb-4 { margin-bottom: var(--space-lg); }
 .mb-6 { margin-bottom: var(--space-lg); }
-.mb-8 { margin-bottom: var(--space-xl); }
+.mb-8 { margin-bottom: var(--space-lg); }
 
 .w-full { width: 100%; }
 .max-w-lg { max-width: 32rem; }
@@ -371,6 +330,132 @@ body {
 
 .text-center { text-align: center; }
 .text-gray-700 { color: var(--text-medium); }
+
+/* Estilos base del formulario */
+.form {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  flex: 1;
+  min-width: 200px;
+}
+
+.form-group-full {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.form-input, .form-select {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #9d9d9d;
+  border-radius: 0.8rem;
+  background-color: #ffffff;
+  font-size: 0.9rem;
+}
+
+/* Estilos para los inputs de archivo */
+.file-upload-container {
+  position: relative;
+}
+
+.file-input {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.file-upload-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: #ffffff;
+  border: 1px solid #9d9d9d;
+  border-radius: 0.8rem;
+  color: #333;
+  cursor: pointer;
+  font-size: 0.9rem;
+  width: 100%;
+}
+
+.file-info {
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: #666;
+}
+
+/* Estilos para los templates */
+.template-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+/* Estilos para los botones */
+.form-buttons {
+  display: flex;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.button {
+  padding: 0.6rem 1.2rem;
+  border-radius: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.button-primary {
+  background-color: #134647;
+  color: white;
+  border: none;
+}
+
+.button-primary:hover {
+  background-color: #134647;
+}
+
+.button-secondary {
+  background-color: #f3f4f6;
+  color: #4b5563;
+  border: 1px solid #d1d5db;
+}
+
+.button-secondary:hover {
+  background-color: #e5e7eb;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .form-row {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .form-group {
+    min-width: 100%;
+  }
+  
+  .template-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+}
 
 /* ============ RESPONSIVE ============ */
 @media (max-width: 768px) {
@@ -399,6 +484,227 @@ body {
     font-size: 0.875rem;
   }
 
-
   
+}
+
+/* ============ FORMULARIO COMPACTO ============ */
+
+/* Estilos generales del formulario */
+.form-uniform {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Filas del formulario */
+.form-row-uniform {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+/* Grupos de campos */
+.form-group-uniform {
+  flex: 1;
+  min-width: 250px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Grupo de ancho completo (para el carrusel) */
+.form-group-full-width {
+  width: 100%;
+  margin: 20px 0;
+}
+
+/* Etiquetas */
+.uniform-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 8px;
+  display: block;
+}
+
+/* Campos de entrada */
+.uniform-input, .uniform-select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border-color 0.3s;
+  box-sizing: border-box;
+  height: 40px;
+}
+
+.uniform-input:focus, .uniform-select:focus {
+  border-color: #134647;
+  outline: none;
+}
+
+/* Select personalizado para que coincida */
+.uniform-select .react-select__control {
+  min-height: 40px !important;
+  border-radius: 6px !important;
+}
+
+/* Subida de archivos */
+.uniform-file-upload {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.uniform-file-input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.uniform-file-button {
+  padding: 10px 12px;
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: center;
+  font-size: 14px;
+  transition: all 0.3s;
+  height: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.uniform-file-button:hover {
+  background-color: #e9e9e9;
+}
+
+.uniform-file-info {
+  margin-top: 5px;
+  font-size: 12px;
+  color: #666;
+  word-break: break-all;
+}
+
+/* Botones */
+.form-buttons-uniform {
+  display: flex;
+  gap: 15px;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.uniform-submit-button {
+  padding: 10px 20px;
+  background-color: #134647;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.uniform-submit-button:hover {
+  background-color: #134647;
+}
+
+.uniform-submit-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.uniform-cancel-button {
+  padding: 10px 20px;
+  background-color: #f5f5f5;
+  color: #333;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s;
+}
+
+.uniform-cancel-button:hover {
+  background-color: #e9e9e9;
+}
+
+.uniform-cancel-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .form-row-uniform {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .form-group-uniform {
+    min-width: 100%;
+  }
+}
+
+/* Estilos base del carousel*/
+.transition-all {
+  transition-property: all;
+}
+
+.duration-300 {
+  transition-duration: 300ms;
+}
+
+.ease-in-out {
+  transition-timing-function: ease-in-out;
+}
+
+.transform {
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.-translate-y-1/2 {
+  --tw-translate-y: -50%;
+}
+
+.-translate-x-1/2 {
+  --tw-translate-x: -50%;
+}
+
+.translate-x-1/2 {
+  --tw-translate-x: 50%;
+}
+
+.object-contain {
+  object-fit: contain;
+}
+
+.rounded-lg {
+  border-radius: 0.5rem;
+}
+
+.rounded-xl {
+  border-radius: 0.75rem;
+}
+
+.shadow-md {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.shadow-sm {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.opacity-70 {
+  opacity: 0.7;
+}
+
+.hidden {
+  display: none;
 }

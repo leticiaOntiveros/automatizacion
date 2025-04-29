@@ -15,6 +15,12 @@ import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import ImageIcon from "@mui/icons-material/Image";
 import CloseIcon from "@mui/icons-material/Close";
+import TemplateCarousel from "./TemplateCarousel";
+import template1 from '../../components/images/template1.png';
+import template2 from '../../components/images/template2.png';
+import template3 from '../../components/images/template3.png';
+import template4 from '../../components/images/template4.png';
+import template5 from '../../components/images/template5.png';
 import {
   Grid,
   Card,
@@ -27,10 +33,11 @@ import {
 import IconButton from "@mui/material/IconButton";
 import CircularProgress from "@mui/material/CircularProgress";
 import SendIcon from "@mui/icons-material/Send";
-import ImageRadioSelector from './imageRadioSelector';
+
 
 export default function AutomatizacionesSTOLForm() {
   const [automatizaciones, setAutomatizaciones] = useState([]);
+  // Definir los campos de la base de datos
   const [formData, setFormData] = useState({
     nombre_producto: "",
     descripcion: "",
@@ -46,25 +53,40 @@ export default function AutomatizacionesSTOLForm() {
     template: "", // Nuevo campo para el template
   });
 
-  // Opciones para los templates
+  // Opciones pra el manejo del carrusel de los templates
   const templateOptions = [
     {
-      id: "basico",
-      label: "Básico",
-      image: "https://m.media-amazon.com/images/I/611Z8E4usUL._AC_UL480_FMwebp_QL65_.jpg?text=Template+Basico",
+      id: "Template   1",
+      label: "Template 1",
+      image:
+        template1,
     },
     {
-      id: "avanzado",
-      label: "Avanzado",
-      image: "https://m.media-amazon.com/images/I/61YrDwqkEtL._AC_UL480_FMwebp_QL65_.jpg",
+      id: "Template 2",
+      label: "Template 2",
+      image:
+        template2,
     },
     {
-      id: "premium",
-      label: "Premium",
-      image: "https://m.media-amazon.com/images/I/71bCyrY3jCL._AC_UL480_FMwebp_QL65_.jpg",
+      id: "Template 3",
+      label: "Template 3",  
+      image:
+        template3,
+    },
+    {
+      id: "Template 4",
+      label: "Template 4",
+      image:
+        template4,
+    },
+    {
+      id: "Template 5",
+      label: "Template 5",
+      image:
+        template5,
     },
   ];
-
+ //definir las variables y el modos
   const [selectedDate, setSelectedDate] = useState(null);
   const [busqueda, setBusqueda] = useState("");
   const [isEditing, setIsEditing] = useState(false);
@@ -89,12 +111,15 @@ export default function AutomatizacionesSTOLForm() {
     fileName: "",
   });
 
+  //llamados de las apis para hacer las peticiones
   const API_BASE_URL =
     "https://theoriginallab-automatizacionestol-back.m0oqwu.easypanel.host";
   const API_KEY = "lety";
   const tableName = "formulario";
   const CORS_ANYWHERE_URL = "https://cors-anywhere.herokuapp.com/";
 
+
+//metodo que maneja el buscador de los items
   const filteredItems = automatizaciones.filter(
     (item) =>
       item.nombre_producto?.toLowerCase().includes(busqueda.toLowerCase()) ||
@@ -116,6 +141,7 @@ export default function AutomatizacionesSTOLForm() {
     setCurrentPage(1);
   }, [busqueda]);
 
+//estados iniciales para el manejo de los archivos
   const getFileType = (fileName) => {
     if (!fileName) return "other";
 
@@ -130,6 +156,7 @@ export default function AutomatizacionesSTOLForm() {
     }
   };
 
+  //metodo para abrir el modal y cargar los archivos
   const handleOpenModal = async (automatizacion) => {
     setCurrentAutomatizacion(automatizacion);
     setOpenModal(true);
@@ -162,7 +189,7 @@ export default function AutomatizacionesSTOLForm() {
           }));
         }
       }
-
+//hacer las peticiones para cargar las imagenes desde el bucket a AWS S3
       if (automatizacion.imagen) {
         const imagenRequestBody = { fileName: automatizacion.imagen };
         const postResponse = await axios.post(
@@ -204,11 +231,11 @@ export default function AutomatizacionesSTOLForm() {
       setLoadingUrls(false);
     }
   };
-
+ //metodo para abrir el archivo en el modal
   const handleViewFile = (type, url, fileName) => {
     setCurrentFileView({ type, url, fileName });
   };
-
+//metodo para cerrar el archivo del modal
   const handleCloseFileView = () => {
     setCurrentFileView({ type: null, url: "", fileName: "" });
   };
@@ -574,626 +601,518 @@ export default function AutomatizacionesSTOLForm() {
       <h2>Automatizaciones TOL</h2>
       {error && <div className="error-message">{error}</div>}
       {success && <div className="success-message">{success}</div>}
-      <Modal
-        open={openModal}
-        onClose={handleCloseModal}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-        BackdropProps={{
-          style: {
-            backgroundColor: "rgba(0,0,0,0.8)",
-            zIndex: 1299,
-          },
+    
+<Modal
+  open={openModal}
+  onClose={handleCloseModal}
+  aria-labelledby="modal-modal-title"
+  aria-describedby="modal-modal-description"
+  BackdropProps={{
+    style: {
+      backgroundColor: "rgba(0,0,0,0.8)",
+      zIndex: 1299,
+    },
+  }}
+>
+  <Box
+    sx={{
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      width: { xs: "90%", sm: "70%", md: "60%" },
+      maxWidth: "800px",
+      maxHeight: "90vh",
+      bgcolor: "background.paper",
+      border: "2px solid",
+      borderColor: "primary.main",
+      borderRadius: "12px",
+      boxShadow: 24,
+      display: "flex",
+      flexDirection: "column",
+      overflow: "hidden",
+      zIndex: 1300,
+    }}
+  >
+    {/* Header del Modal */}
+    <Box
+      sx={{
+        p: 2,
+        backgroundColor: "#134647",
+        color: "white",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        borderBottom: "1px solid rgba(255, 255, 255, 0.2)",
+      }}
+    >
+      <Typography
+        id="modal-modal-title"
+        variant="h6"
+        sx={{ fontSize: "1.5rem", fontWeight: 600 }}
+      >
+        Archivos de Automatización
+      </Typography>
+      <IconButton
+        onClick={handleCloseModal}
+        sx={{
+          color: "white",
+          "&:hover": { backgroundColor: "rgba(255,255,255,0.1)" },
         }}
       >
+        <CloseIcon />
+      </IconButton>
+    </Box>
+
+    {/* Contenido del Modal */}
+    <Box
+      sx={{
+        p: 4,
+        overflowY: "auto",
+        flex: 1,
+      }}
+    >
+      {currentAutomatizacion && (
         <Box
           sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: { xs: "90%", sm: "70%", md: "60%" },
-            maxWidth: "800px",
-            maxHeight: "90vh",
-            bgcolor: "background.paper",
-            border: "2px solid",
-            borderColor: "primary.main",
-            borderRadius: "12px",
-            boxShadow: 24,
-            overflow: "hidden",
-            display: "flex",
-            flexDirection: "column",
-            zIndex: 1300,
+            mb: 4,
+            p: 3,
+            borderRadius: "8px",
+            backgroundColor: "rgba(167, 167, 167, 0.05)",
+            border: "1px solid #134647",
+            boxShadow: "0 4px 6px -1px rgba(173, 173, 173, 0.05)",
           }}
         >
-          {/* Header del Modal */}
-          <Box
-            sx={{
-              padding: "16px 24px",
-              background: "linear-gradient(135deg, #0709ab 0%, #2196f3 100%)",
-              color: "white",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              borderBottom: "1px solid rgba(255, 255, 255, 0.2)",
-            }}
+          <Typography
+            variant="h6"
+            sx={{ color: "#1976d2", textAlign: "center", mb: 2 }}
           >
-            <Typography
-              id="modal-modal-title"
-              variant="h6"
-              component="h2"
+            {currentAutomatizacion.nombre_producto}
+          </Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <Typography><strong>ID:</strong> {currentAutomatizacion.id_automatizaciones}</Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography><strong>Categoría:</strong> {categorias.find(cat => cat.id_categoria === currentAutomatizacion.id_categoria)?.categoria || currentAutomatizacion.id_categoria}</Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography><strong>Proveedor:</strong> {currentAutomatizacion.proveedor}</Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography><strong>Estado:</strong> {currentAutomatizacion.estado}</Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography><strong>Template:</strong> {currentAutomatizacion.template || "No especificado"}</Typography>
+            </Grid>
+          </Grid>
+        </Box>
+      )}
+
+      {loadingUrls ? (
+        <Box sx={{ textAlign: "center", py: 4 }}>
+          <CircularProgress color="inherit" />
+          <Typography variant="body1" sx={{ mt: 2 }}>
+            Cargando archivos...
+          </Typography>
+        </Box>
+      ) : (
+        <Grid container spacing={3}>
+          {/* Tarjeta Logo Empresa */}
+          <Grid item xs={12} md={6}>
+            <Box
               sx={{
-                fontSize: "1.5rem",
-                fontWeight: "600",
-                letterSpacing: "0.5px",
-              }}
-            >
-              Archivos de Automatización
-            </Typography>
-            <IconButton
-              onClick={handleCloseModal}
-              sx={{
-                color: "white",
+                height: "100%",
+                p: 3,
+                border: "1px solid rgba(19, 70, 71, 0.3)",
+                borderRadius: "8px",
+                backgroundColor: "white",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                transition: "all 0.3s ease",
                 "&:hover": {
-                  backgroundColor: "rgba(255, 255, 255, 0.1)",
+                  transform: "translateY(-2px)",
+                  boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
                 },
               }}
             >
-              <CloseIcon />
-            </IconButton>
-          </Box>
-
-          {/* Contenido del Modal */}
-          <Box
-            sx={{
-              p: 4,
-              overflowY: "auto",
-              flex: 1,
-              maxHeight: "calc(90vh - 64px)",
-            }}
-          >
-            {currentAutomatizacion && (
-              <Box
-                sx={{
-                  mb: 4,
-                  p: 3,
-                  borderRadius: "8px",
-                  background: "rgba(25, 118, 210, 0.05)",
-                  border: "1px solid rgba(25, 118, 210, 0.2)",
-                  boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.05)",
-                }}
-              >
-                <Typography
-                  variant="h6"
-                  sx={{ color: "#1976d2", textAlign: "center", mb: 2 }}
-                >
-                  {currentAutomatizacion.nombre_producto}
+              <InsertDriveFileIcon sx={{ color: "#134647", mb: 1 }} />
+              <Typography variant="subtitle1" sx={{ color: "#134647", fontWeight: "medium", mb: 2 }}>
+                Logo de la Empresa
+              </Typography>
+              {fileUrls.logo_empresa && currentAutomatizacion?.logo_empresa ? (
+                <Box sx={{ height: "300px", width: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                  {getFileType(currentAutomatizacion.logo_empresa) === "image" ? (
+                    <img
+                      src={fileUrls.logo_empresa}
+                      alt="Logo de la empresa"
+                      style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain" }}
+                    />
+                  ) : (
+                    <Button
+                      variant="contained"
+                      fullWidth
+                      onClick={() => handleViewFile("logo_empresa", fileUrls.logo_empresa, currentAutomatizacion.logo_empresa)}
+                      sx={{
+                        background: "linear-gradient(45deg, #1976d2 30%, #2196f3 90%)",
+                        color: "white",
+                        fontWeight: "600",
+                        "&:hover": { background: "linear-gradient(45deg, #1565c0 30%, #1976d2 90%)" },
+                      }}
+                    >
+                      Ver Archivo
+                    </Button>
+                  )}
+                </Box>
+              ) : (
+                <Typography variant="body2" sx={{ color: "text.disabled" }}>
+                  No disponible
                 </Typography>
-                <Grid container spacing={2}>
-                  <Grid item xs={6}>
-                    <Typography>
-                      <strong>ID:</strong>{" "}
-                      {currentAutomatizacion.id_automatizaciones}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Typography>
-                      <strong>Categoría:</strong>{" "}
-                      {categorias.find(
-                        (cat) =>
-                          cat.id_categoria ===
-                          currentAutomatizacion.id_categoria
-                      )?.categoria || currentAutomatizacion.id_categoria}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Typography>
-                      <strong>Proveedor:</strong>{" "}
-                      {currentAutomatizacion.proveedor}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Typography>
-                      <strong>Estado:</strong> {currentAutomatizacion.estado}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography>
-                      <strong>Template:</strong>{" "}
-                      {currentAutomatizacion.template || "No especificado"}
-                    </Typography>
-                  </Grid>
-                </Grid>
-              </Box>
-            )}
+              )}
+            </Box>
+          </Grid>
 
-            {loadingUrls ? (
-              <Box sx={{ textAlign: "center", py: 4, color: "#1976d2" }}>
-                <CircularProgress color="inherit" />
-                <Typography variant="body1" sx={{ mt: 2 }}>
-                  Cargando archivos...
-                </Typography>
-              </Box>
-            ) : (
-              <Box>
-                {currentFileView.type ? (
-                  renderFilePreview()
-                ) : (
-                  <Grid container spacing={3}>
-                    {/* Tarjeta Logo Empresa */}
-                    <Grid item xs={12} md={6}>
-                      <Box
-                        sx={{
-                          height: "100%",
-                          p: 3,
-                          border: "1px solid rgba(25, 118, 210, 0.3)",
-                          borderRadius: "8px",
-                          backgroundColor: "white",
-                          transition: "all 0.3s ease",
-                          "&:hover": {
-                            transform: "translateY(-2px)",
-                            boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
-                          },
-                          display: "flex",
-                          flexDirection: "column",
-                        }}
-                      >
-                        <Box
-                          sx={{ display: "flex", alignItems: "center", mb: 2 }}
-                        >
-                          <InsertDriveFileIcon
-                            sx={{ color: "#1976d2", mr: 1 }}
-                          />
-                          <Typography
-                            variant="subtitle1"
-                            sx={{ color: "#1976d2", fontWeight: "medium" }}
-                          >
-                            Logo de la Empresa
-                          </Typography>
-                        </Box>
-                        {fileUrls.logo_empresa &&
-                        currentAutomatizacion?.logo_empresa ? (
-                          <Box
-                            sx={{
-                              mt: 2,
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                              height: "300px",
-                              overflow: "hidden",
-                            }}
-                          >
-                            {getFileType(currentAutomatizacion.logo_empresa) ===
-                            "image" ? (
-                              <img
-                                src={fileUrls.logo_empresa}
-                                alt="Logo de la empresa"
-                                style={{
-                                  maxWidth: "100%",
-                                  maxHeight: "100%",
-                                  objectFit: "contain",
-                                }}
-                              />
-                            ) : (
-                              <Button
-                                variant="contained"
-                                onClick={() =>
-                                  handleViewFile(
-                                    "logo_empresa",
-                                    fileUrls.logo_empresa,
-                                    currentAutomatizacion.logo_empresa
-                                  )
-                                }
-                                sx={{
-                                  background:
-                                    "linear-gradient(45deg, #1976d2 30%, #2196f3 90%)",
-                                  color: "white",
-                                  fontWeight: "600",
-                                  "&:hover": {
-                                    background:
-                                      "linear-gradient(45deg, #1565c0 30%, #1976d2 90%)",
-                                  },
-                                }}
-                                fullWidth
-                              >
-                                Ver Archivo
-                              </Button>
-                            )}
-                          </Box>
-                        ) : (
-                          <Typography
-                            variant="body2"
-                            sx={{ color: "text.disabled", mt: "auto" }}
-                          >
-                            No disponible
-                          </Typography>
-                        )}
-                      </Box>
-                    </Grid>
-
-                    {/* Tarjeta Imagen Producto */}
-                    <Grid item xs={12} md={6}>
-                      <Box
-                        sx={{
-                          height: "100%",
-                          p: 3,
-                          border: "1px solid rgba(25, 118, 210, 0.3)",
-                          borderRadius: "8px",
-                          backgroundColor: "white",
-                          transition: "all 0.3s ease",
-                          "&:hover": {
-                            transform: "translateY(-2px)",
-                            boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
-                          },
-                          display: "flex",
-                          flexDirection: "column",
-                        }}
-                      >
-                        <Box
-                          sx={{ display: "flex", alignItems: "center", mb: 2 }}
-                        >
-                          <InsertDriveFileIcon
-                            sx={{ color: "#1976d2", mr: 1 }}
-                          />
-                          <Typography
-                            variant="subtitle1"
-                            sx={{ color: "#1976d2", fontWeight: "medium" }}
-                          >
-                            Imagen del Producto
-                          </Typography>
-                        </Box>
-                        {fileUrls.imagen && currentAutomatizacion?.imagen ? (
-                          <Box
-                            sx={{
-                              mt: 2,
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                              height: "300px",
-                              overflow: "hidden",
-                            }}
-                          >
-                            {getFileType(currentAutomatizacion.imagen) ===
-                            "image" ? (
-                              <img
-                                src={fileUrls.imagen}
-                                alt="Imagen del producto"
-                                style={{
-                                  maxWidth: "100%",
-                                  maxHeight: "100%",
-                                  objectFit: "contain",
-                                }}
-                              />
-                            ) : (
-                              <Button
-                                variant="contained"
-                                onClick={() =>
-                                  handleViewFile(
-                                    "imagen",
-                                    fileUrls.imagen,
-                                    currentAutomatizacion.imagen
-                                  )
-                                }
-                                sx={{
-                                  background:
-                                    "linear-gradient(45deg, #1976d2 30%, #2196f3 90%)",
-                                  color: "white",
-                                  fontWeight: "600",
-                                  "&:hover": {
-                                    background:
-                                      "linear-gradient(45deg, #1565c0 30%, #1976d2 90%)",
-                                  },
-                                }}
-                                fullWidth
-                              >
-                                Ver Archivo
-                              </Button>
-                            )}
-                          </Box>
-                        ) : (
-                          <Typography
-                            variant="body2"
-                            sx={{ color: "text.disabled", mt: "auto" }}
-                          >
-                            No disponible
-                          </Typography>
-                        )}
-                      </Box>
-                    </Grid>
-                  </Grid>
-                )}
-              </Box>
-            )}
-          </Box>
-        </Box>
-      </Modal>
-
-      <form onSubmit={handleSubmit} className="form">
-        {isEditing && (
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-medium mb-2">
-              ID Automatización:
-            </label>
-            <input
-              type="text"
-              value={formData.id_automatizaciones || ""}
-              disabled
-              className="w-full max-w-lg p-2 border border-gray-300 rounded-md bg-gray-100"
-            />
-          </div>
-        )}
-
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-medium mb-2">
-            Nombre del Producto:
-          </label>
-          <input
-            type="text"
-            value={formData.nombre_producto}
-            onChange={(e) =>
-              setFormData({ ...formData, nombre_producto: e.target.value })
-            }
-            className="w-full max-w-2xl md:max-w-3xl lg:max-w-4xl p-2 border border-gray-300 rounded-md bg-gray-100"
-            required
-            disabled={loading}
-          />
-        </div>
-
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-medium mb-2">
-            Descripción:
-          </label>
-          <input
-            value={formData.descripcion}
-            onChange={(e) =>
-              setFormData({ ...formData, descripcion: e.target.value })
-            }
-            className="w-full max-w-lg p-2 border border-gray-300 rounded-md bg-gray-100"
-            rows={3}
-            disabled={loading}
-          />
-        </div>
-
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-medium mb-2">
-            Categoría:
-          </label>
-          <Select
-            options={categorias.map((cat) => ({
-              value: cat.id_categoria,
-              label: cat.categoria,
-            }))}
-            value={
-              formData.id_categoria
-                ? {
-                    value: formData.id_categoria,
-                    label:
-                      categorias.find(
-                        (cat) => cat.id_categoria === formData.id_categoria
-                      )?.categoria || "Seleccione",
-                  }
-                : null
-            }
-            onChange={(selectedOption) =>
-              setFormData({
-                ...formData,
-                id_categoria: selectedOption?.value || "",
-              })
-            }
-            placeholder="Seleccione una categoría"
-            className="w-full max-w-lg p-2 border border-gray-300 rounded-md bg-gray-100"
-            isDisabled={loading}
-          />
-        </div>
-
-        <div className="mb-4">
-          <div>
-            <label className="block text-gray-700 text-sm font-medium mb-2">
-              Cantidad:
-            </label>
-            <input
-              value={formData.cantidad}
-              onChange={(e) =>
-                setFormData({ ...formData, cantidad: e.target.value })
-              }
-              className="w-full max-w-lg p-2 border border-gray-300 rounded-md bg-gray-100"
-              rows={3}
-              disabled={loading}
-            />
-          </div>
-
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-medium mb-2">
-              Precio Unitario:
-            </label>
-            <input
-              value={formData.precio_unitario}
-              onChange={(e) =>
-                setFormData({ ...formData, precio_unitario: e.target.value })
-              }
-              className="w-full max-w-lg p-2 border border-gray-300 rounded-md bg-gray-100"
-              rows={3}
-              disabled={loading}
-            />
-          </div>
-        </div>
-
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-medium mb-2">
-            Logo de la Empresa:
-          </label>
-          <input
-            type="file"
-            onChange={handleFileLogoEmpresaChange}
-            className="w-full max-w-lg p-2 border border-gray-300 rounded-md bg-gray-100"
-            disabled={loading}
-            required={!isEditing || (isEditing && !formData.logo_empresa)}
-            accept="image/*,.pdf"
-          />
-          {fileLogoEmpresa && (
-            <p className="mt-2 text-sm text-gray-600">
-              Archivo seleccionado: {fileLogoEmpresa.name}
-            </p>
-          )}
-          {isEditing && !fileLogoEmpresa && formData.logo_empresa && (
-            <p className="mt-2 text-sm text-gray-600">
-              Archivo actual: {formData.logo_empresa}
-            </p>
-          )}
-        </div>
-
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-medium mb-2">
-            Imagen del Producto:
-          </label>
-          <input
-            type="file"
-            onChange={handleFileImagenChange}
-            className="w-full max-w-lg p-2 border border-gray-300 rounded-md bg-gray-100"
-            disabled={loading}
-            required={!isEditing || (isEditing && !formData.imagen)}
-            accept="image/*,.pdf"
-          />
-          {fileImagen && (
-            <p className="mt-2 text-sm text-gray-600">
-              Archivo seleccionado: {fileImagen.name}
-            </p>
-          )}
-          {isEditing && !fileImagen && formData.imagen && (
-            <p className="mt-2 text-sm text-gray-600">
-              Archivo actual: {formData.imagen}
-            </p>
-          )}
-        </div>
-
-        <div className="mb-4">
-          <div>
-            <label className="block text-gray-700 text-sm font-medium mb-2">
-              Proveedor:
-            </label>
-            <input
-              type="text"
-              value={formData.proveedor}
-              onChange={(e) =>
-                setFormData({ ...formData, proveedor: e.target.value })
-              }
-              className="w-full max-w-lg p-2 border border-gray-300 rounded-md bg-gray-100"
-              disabled={loading}
-            />
-          </div>
-
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-medium mb-2">
-              Fecha de Ingreso:
-            </label>
-            <DatePicker
-              selected={selectedDate}
-              onChange={(date) => setSelectedDate(date)}
-              dateFormat="yyyy-MM-dd"
-              className="w-full max-w-lg p-2 border border-gray-300 rounded-md bg-gray-100"
-              placeholderText="Seleccione la fecha"
-              disabled={loading}
-            />
-          </div>
-        </div>
-
-        <div className="mb-4">
-          <div>
-            <label className="block text-gray-700 text-sm font-medium mb-2">
-              Código de Barras:
-            </label>
-            <input
-              type="text"
-              value={formData.codigo_barras}
-              onChange={(e) =>
-                setFormData({ ...formData, codigo_barras: e.target.value })
-              }
-              className="w-full max-w-lg p-2 border border-gray-300 rounded-md bg-gray-100"
-              disabled={loading}
-            />
-          </div>
-
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-medium mb-2">
-              Estado:
-            </label>
-            <Select
-              options={[
-                { value: "Oferta", label: "Oferta" },
-                { value: "Lanzamiento", label: "Lanzamiento" },
-                { value: "Regreso", label: "Regreso" },
-              ]}
-              value={
-                formData.estado
-                  ? {
-                      value: formData.estado,
-                      label: formData.estado,
-                    }
-                  : null
-              }
-              onChange={(selectedOption) =>
-                setFormData({
-                  ...formData,
-                  estado: selectedOption?.value || "Oferta",
-                })
-              }
-              className="w-full"
-              isDisabled={loading}
-            />
-          </div>
-        </div>
-
-        {/* Sección de Templates */}
-<div className="mb-4">
-  <label className="block text-gray-700 text-sm font-medium mb-2">
-    Plantilla:
-  </label>
-  <div id="template-selector-container"></div>
-  <ImageRadioSelector
-    containerId="template-selector-container"
-    options={templateOptions.map(option => ({
-      value: option.id,
-      imgSrc: option.image,
-      alt: option.label,
-      checked: formData.template === option.id
-    }))}
-    name="template-radio"
-    onChange={handleTemplateChange}
-  />
-</div>
-
-        <div className="flex gap-2">
-          <button
-            type="submit"
-            className="button button-primary"
-            disabled={loading}
-          >
-            {loading ? "Procesando..." : isEditing ? "Actualizar" : "Agregar"}
-          </button>
-
-          {isEditing && (
-            <button
-              type="button"
-              onClick={resetForm}
-              className="button button-secondary"
-              disabled={loading}
+          {/* Tarjeta Imagen Producto */}
+          <Grid item xs={12} md={6}>
+            <Box
+              sx={{
+                height: "100%",
+                p: 3,
+                border: "1px solid rgba(19, 70, 71, 0.3)",
+                borderRadius: "8px",
+                backgroundColor: "white",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                transition: "all 0.3s ease",
+                "&:hover": {
+                  transform: "translateY(-2px)",
+                  boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+                },
+              }}
             >
-              Cancelar
-            </button>
-          )}
-        </div>
-      </form>
+              <InsertDriveFileIcon sx={{ color: "#134647", mb: 1 }} />
+              <Typography variant="subtitle1" sx={{ color: "#134647", fontWeight: "medium", mb: 2 }}>
+                Imagen del Producto
+              </Typography>
+              {fileUrls.imagen && currentAutomatizacion?.imagen ? (
+                <Box sx={{ height: "300px", width: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                  {getFileType(currentAutomatizacion.imagen) === "image" ? (
+                    <img
+                      src={fileUrls.imagen}
+                      alt="Imagen del producto"
+                      style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain" }}
+                    />
+                  ) : (
+                    <Button
+                      variant="contained"
+                      fullWidth
+                      onClick={() => handleViewFile("imagen", fileUrls.imagen, currentAutomatizacion.imagen)}
+                      sx={{
+                        background: "linear-gradient(45deg, #1976d2 30%, #2196f3 90%)",
+                        color: "white",
+                        fontWeight: "600",
+                        "&:hover": { background: "linear-gradient(45deg, #1565c0 30%, #1976d2 90%)" },
+                      }}
+                    >
+                      Ver Archivo
+                    </Button>
+                  )}
+                </Box>
+              ) : (
+                <Typography variant="body2" sx={{ color: "text.disabled" }}>
+                  No disponible
+                </Typography>
+              )}
+            </Box>
+          </Grid>
+        </Grid>
+      )}
+    </Box>
+  </Box>
+</Modal>
+      
+      {/* Formulario del dashboard */} 
+  <form onSubmit={handleSubmit} className="form-uniform">
+  <div className="form-row-uniform">
+    <div className="form-group-uniform">
+      <label className="uniform-label">
+        Nombre del Producto:
+      </label>
+      <input
+        type="text"
+        value={formData.nombre_producto}
+        onChange={(e) => setFormData({ ...formData, nombre_producto: e.target.value })}
+        className="uniform-input"
+        required
+        disabled={loading}
+      />
+    </div>
 
-      <div className="search-container">
-        <label className="block text-gray-700 text-sm font-medium mb-2">
-          Buscar automatizaciones :
+    <div className="form-group-uniform">
+      <label className="uniform-label">
+        Descripción:
+      </label>
+      <input
+        value={formData.descripcion}
+        onChange={(e) => setFormData({ ...formData, descripcion: e.target.value })}
+        className="uniform-input"
+        disabled={loading}
+      />
+    </div>
+
+    <div className="form-group-uniform">
+      <label className="uniform-label">
+        Categoría:
+      </label>
+      <Select
+        options={categorias.map((cat) => ({
+          value: cat.id_categoria,
+          label: cat.categoria,
+        }))}
+        value={
+          formData.id_categoria
+            ? {
+                value: formData.id_categoria,
+                label: categorias.find((cat) => cat.id_categoria === formData.id_categoria)?.categoria || "Seleccione",
+              }
+            : null
+        }
+        onChange={(selectedOption) =>
+          setFormData({
+            ...formData,
+            id_categoria: selectedOption?.value || "",
+          })
+        }
+        placeholder="Seleccione"
+        className="uniform-select"
+        isDisabled={loading}
+      />
+    </div>
+  </div>
+
+  {/* Segunda fila */}
+  <div className="form-row-uniform">
+    <div className="form-group-uniform">
+      <label className="uniform-label">
+        Cantidad:
+      </label>
+      <input
+        type="number"
+        value={formData.cantidad}
+        onChange={(e) => setFormData({ ...formData, cantidad: e.target.value })}
+        className="uniform-input"
+        disabled={loading}
+      />
+    </div>
+
+    <div className="form-group-uniform">
+      <label className="uniform-label">
+        Precio Unitario:
+      </label>
+      <input
+        type="number"
+        value={formData.precio_unitario}
+        onChange={(e) => setFormData({ ...formData, precio_unitario: e.target.value })}
+        className="uniform-input"
+        disabled={loading}
+      />
+    </div>
+
+    <div className="form-group-uniform">
+      <label className="uniform-label">
+        Logo Empresa:
+      </label>
+      <div className="uniform-file-upload">
+        <input
+          type="file"
+          id="file-upload"
+          onChange={handleFileLogoEmpresaChange}
+          className="uniform-file-input"
+          disabled={loading}
+          accept="image/*,.pdf"
+          required={!isEditing || (isEditing && !formData.logo_empresa)}
+        />
+        <label htmlFor="file-upload" className="uniform-file-button">
+        📷 Logo empresa
+        </label>
+        {fileLogoEmpresa && (
+          <p className="uniform-file-info">{fileLogoEmpresa.name}</p>
+        )}
+      </div>
+    </div>
+  </div>
+
+  {/* Tercera fila */}
+  <div className="form-row-uniform">
+    <div className="form-group-uniform">
+      <label className="uniform-label">
+        Imagen Producto:
+      </label>
+      <div className="uniform-file-upload">
+        <input
+          type="file"
+          id="file-upload-producto"
+          onChange={handleFileImagenChange}
+          className="uniform-file-input"
+          disabled={loading}
+          accept="image/*,.pdf"
+          required={!isEditing || (isEditing && !formData.imagen)}
+        />
+        <label htmlFor="file-upload-producto" className="uniform-file-button">
+          📷 Imagen del producto
+        </label>
+        {fileImagen && (
+          <p className="uniform-file-info">{fileImagen.name}</p>
+        )}
+      </div>
+    </div>
+
+    <div className="form-group-uniform">
+      <label className="uniform-label">
+        Proveedor:
+      </label>
+      <input
+        type="text"
+        value={formData.proveedor}
+        onChange={(e) => setFormData({ ...formData, proveedor: e.target.value })}
+        className="uniform-input"
+        disabled={loading}
+      />
+    </div>
+
+    <div className="form-group-uniform">
+      <label className="uniform-label">
+        Fecha Ingreso:
+      </label>
+      <DatePicker
+        selected={selectedDate}
+        onChange={(date) => setSelectedDate(date)}
+        dateFormat="yyyy-MM-dd"
+        className="uniform-input"
+        placeholderText="Fecha"
+        disabled={loading}
+      />
+    </div>
+  </div>
+
+  {/* Cuarta fila */}
+  <div className="form-row-uniform">
+    <div className="form-group-uniform">
+      <label className="uniform-label">
+        Código Barras:
+      </label>
+      <input
+        type="text"
+        value={formData.codigo_barras}
+        onChange={(e) => setFormData({ ...formData, codigo_barras: e.target.value })}
+        className="uniform-input"
+        required
+        disabled={loading}
+      />
+    </div>
+
+    <div className="form-group-uniform">
+      <label className="uniform-label">
+        Estado:
+      </label>
+      <Select
+        options={[
+          { value: "Oferta", label: "Oferta" },
+          { value: "Lanzamiento", label: "Lanzamiento" },
+          { value: "Regreso", label: "Regreso" },
+        ]}
+        value={
+          formData.estado
+            ? {
+                value: formData.estado,
+                label: formData.estado,
+              }
+            : null
+        }
+        onChange={(selectedOption) =>
+          setFormData({
+            ...formData,
+            estado: selectedOption?.value || "Oferta",
+          })
+        }
+        className="uniform-select"
+        isDisabled={loading}
+      />
+    </div>
+
+    {isEditing && (
+      <div className="form-group-uniform">
+        <label className="uniform-label">
+          ID:
         </label>
         <input
           type="text"
-          placeholder="Buscar por nombre, descripción, categoría..."
+          value={formData.id_automatizaciones || ""}
+          className="uniform-input"
+          disabled
+        />
+      </div>
+    )}
+  </div>
+
+  {/* Sección del carrusel */}
+  <div className="form-row-uniform">
+    <div className="form-group-full-width">
+    <TemplateCarousel 
+      templateOptions={templateOptions}
+      formData={formData}
+      handleTemplateChange={({ target }) => {
+        setFormData({
+          ...formData,
+          template: target.value // Extrae solo el value
+        });
+      }}
+      value={formData.template}
+    />
+    </div>
+  </div>
+
+  {/* Botones */}
+  <div className="form-buttons-uniform">
+    <button
+      type="submit"
+      className="uniform-submit-button"
+      disabled={loading}
+    >
+      {loading ? "Procesando..." : isEditing ? "Actualizar" : "Agregar"}
+    </button>
+
+    {isEditing && (
+      <button
+        type="button"
+        onClick={resetForm}
+        className="uniform-cancel-button"
+        disabled={loading}
+      >
+        Cancelar
+      </button>
+    )}
+  </div>
+</form>
+
+      <div className="search-container" style={{ marginBottom: "25px" }}>
+        <input
+          type="text"
+          placeholder= "🔍 Buscar por nombre, descripción, categoría..."
           value={busqueda}
           onChange={(e) => setBusqueda(e.target.value)}
-          className="search-input w-full max-w-lg p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+          style={{
+            width: "800px",
+            maxWidth: "100%",
+            padding: "0.5rem",
+            border: "1px solid rgb(157, 157, 157)",
+            borderRadius: "0.800rem",
+            backgroundColor: "#ffffff",
+          }}
           disabled={loading}
         />
       </div>
@@ -1257,15 +1176,15 @@ export default function AutomatizacionesSTOLForm() {
                       style={{
                         background: "none",
                         border: "none",
-                        color: "#0447fb",
+                        color: "#134647",
                         cursor: "pointer",
                         padding: "4px",
                       }}
                       onMouseOver={(e) =>
-                        (e.currentTarget.style.color = "#3b82f6")
+                        (e.currentTarget.style.color = "#134647")
                       }
                       onMouseOut={(e) =>
-                        (e.currentTarget.style.color = "#0447fb")
+                        (e.currentTarget.style.color = "#134647")
                       }
                       disabled={loading}
                     >
@@ -1277,15 +1196,15 @@ export default function AutomatizacionesSTOLForm() {
                       style={{
                         background: "none",
                         border: "none",
-                        color: "#10b981",
+                        color: "#134647",
                         cursor: "pointer",
                         padding: "4px",
                       }}
                       onMouseOver={(e) =>
-                        (e.currentTarget.style.color = "#059669")
+                        (e.currentTarget.style.color = "#134647")
                       }
                       onMouseOut={(e) =>
-                        (e.currentTarget.style.color = "#10b981")
+                        (e.currentTarget.style.color = "#134647")
                       }
                       disabled={loading}
                     >
@@ -1297,15 +1216,15 @@ export default function AutomatizacionesSTOLForm() {
                       style={{
                         background: "none",
                         border: "none",
-                        color: "#ef4444",
+                        color: "#134647",
                         cursor: "pointer",
                         padding: "4px",
                       }}
                       onMouseOver={(e) =>
-                        (e.currentTarget.style.color = "#dc2626")
+                        (e.currentTarget.style.color = "#134647")
                       }
                       onMouseOut={(e) =>
-                        (e.currentTarget.style.color = "#ef4444")
+                        (e.currentTarget.style.color = "#134647")
                       }
                       disabled={loading}
                     >
@@ -1338,16 +1257,16 @@ export default function AutomatizacionesSTOLForm() {
                       style={{
                         background: "none",
                         border: "none",
-                        color: "#0447fb",
+                        color: "#134647",
                         cursor: "pointer",
                         padding: "4px",
                         transition: "color 0.2s ease",
                       }}
                       onMouseOver={(e) =>
-                        (e.currentTarget.style.color = "#3b82f6")
+                        (e.currentTarget.style.color = "#134647")
                       }
                       onMouseOut={(e) =>
-                        (e.currentTarget.style.color = "#0447fb")
+                        (e.currentTarget.style.color = "#134647")
                       }
                       disabled={loading}
                     >
