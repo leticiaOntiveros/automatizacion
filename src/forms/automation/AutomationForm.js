@@ -1131,47 +1131,69 @@ export default function AutomatizacionesSTOLForm() {
         </button>
       </div>
 
-      <div className="overflow-x-auto">
-        <table className="table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Nombre Producto</th>
-              <th>Categoría</th>
-              <th>Cantidad</th>
-              <th>Precio</th>
-              <th>Proveedor</th>
-              <th>Logo Empresa</th>
-              <th>Imagen Producto</th>
-              <th>Estado</th>
-              <th>Template</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {currentItems.map((item) => (
-              <tr key={item.id_automatizaciones}>
-                <td>{item.id_automatizaciones}</td>
-                <td>{item.nombre_producto}</td>
-                <td>
-                  {categorias.find(
-                    (cat) => cat.id_categoria === item.id_categoria
-                  )?.categoria || item.id_categoria}
-                </td>
-                <td>{item.cantidad}</td>
-                <td>{item.precio_unitario}</td>
-                <td>{item.proveedor}</td>
-                <td className="truncate max-w-xs">{item.logo_empresa}</td>
-                <td className="truncate max-w-xs">{item.imagen}</td>
-                <td>
-                  <span className={`status ${item.estado.toLowerCase()}`}>
-                    {item.estado}
-                  </span>
-                </td>
-                <td>{item.template}</td>
-                <td>
-                  <div className="flex gap-2">
-                    <button
+  <div className="overflow-x-auto">
+  <table className="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre Producto</th>
+        <th>Categoría</th>
+        <th>Cantidad</th>
+        <th>Precio</th>
+        <th>Proveedor</th>
+        <th>Logo Empresa</th>
+        <th>Imagen Producto</th>
+        <th>Estado</th>
+        <th>Template</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {currentItems.map((item) => (
+        <tr key={item.id_automatizaciones}>
+          <td>{item.id_automatizaciones}</td>
+          <td>{item.nombre_producto}</td>
+          <td>
+            {categorias.find(
+              (cat) => cat.id_categoria === item.id_categoria
+            )?.categoria || item.id_categoria}
+          </td>
+          <td>{item.cantidad}</td>
+          <td>${item.precio_unitario}</td>
+          <td>{item.proveedor}</td>
+          <td>
+            {item.logo_empresa ? (
+              <img 
+                src={item.logo_empresa} 
+                alt="Logo" 
+                className="w-10 h-10 object-contain"
+              />
+            ) : (
+              <span className="text-gray-400">No disponible</span>
+            )}
+          </td>
+          <td>
+            {item.imagen ? (
+              <img 
+                src={item.imagen} 
+                alt="Producto" 
+                className="w-10 h-10 object-contain"
+              />
+            ) : (
+              <span className="text-gray-400">No disponible</span>
+            )}
+          </td>
+          <td>
+            <span className={`badge ${item.estado.toLowerCase() === 'activo' ? 'badge-success' : 'badge-error'}`}>
+              {item.estado}
+            </span>
+          </td>
+          <td>{item.template}</td>
+          <td>
+            <div className="flex space-x-2">
+
+            {/* Botón de Editar */}
+            <button
                       onClick={() => handleEdit(item)}
                       style={{
                         background: "none",
@@ -1191,7 +1213,8 @@ export default function AutomatizacionesSTOLForm() {
                       <EditSquareIcon fontSize="small" />
                     </button>
 
-                    <button
+              {/* Botón de ver la imagen */}
+              <button
                       onClick={() => handleOpenModal(item)}
                       style={{
                         background: "none",
@@ -1211,7 +1234,8 @@ export default function AutomatizacionesSTOLForm() {
                       <ImageIcon fontSize="small" />
                     </button>
 
-                    <button
+              {/* Botón para eliminar */}
+              <button
                       onClick={() => handleDelete(item.id_automatizaciones)}
                       style={{
                         background: "none",
@@ -1229,9 +1253,10 @@ export default function AutomatizacionesSTOLForm() {
                       disabled={loading}
                     >
                       <DeleteIcon fontSize="small" />
-                    </button>
+              </button>
 
-                    <button
+              {/* Botón para enviar los datos*/}
+              <button
                       onClick={async () => {
                         try {
                           console.log("Enviando item a la API:", item);
@@ -1272,12 +1297,13 @@ export default function AutomatizacionesSTOLForm() {
                     >
                       <SendIcon fontSize="small" />
                     </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+            </div>
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+
 
         {filteredItems.length > itemsPerPage && (
           <div
