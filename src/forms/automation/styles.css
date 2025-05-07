@@ -139,6 +139,7 @@ body {
   gap: var(--space-sm);
   box-shadow: var(--shadow-md);
   border: 2px solid transparent;
+  border-radius: 10px;
 }
 
 

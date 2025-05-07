@@ -116,7 +116,7 @@ export default function AutomatizacionesSTOLForm() {
     "https://theoriginallab-automatizacionestol-back.m0oqwu.easypanel.host";
   const API_KEY = "lety";
   const tableName = "formulario";
-  const CORS_ANYWHERE_URL = "https://cors-anywhere.herokuapp.com/";
+  const CORS_PROXY = "https://thingproxy.freeboard.io/fetch/";
 
 
 //metodo que maneja el buscador de los items
@@ -171,7 +171,7 @@ export default function AutomatizacionesSTOLForm() {
           fileName: automatizacion.logo_empresa,
         };
         const getResponse = await axios.post(
-          `${CORS_ANYWHERE_URL}https://kneib5mp53.execute-api.us-west-2.amazonaws.com/dev/getObject`,
+          `${CORS_PROXY}https://kneib5mp53.execute-api.us-west-2.amazonaws.com/dev/getObject`,
           logoEmpresaRequestBody,
           {
             headers: {
@@ -193,7 +193,7 @@ export default function AutomatizacionesSTOLForm() {
       if (automatizacion.imagen) {
         const imagenRequestBody = { fileName: automatizacion.imagen };
         const postResponse = await axios.post(
-          `${CORS_ANYWHERE_URL}https://kneib5mp53.execute-api.us-west-2.amazonaws.com/dev/getObject`,
+          `${CORS_PROXY}https://kneib5mp53.execute-api.us-west-2.amazonaws.com/dev/getObject`,
           imagenRequestBody,
           {
             headers: {
@@ -248,7 +248,7 @@ export default function AutomatizacionesSTOLForm() {
       const fileBlob = new Blob([fileArrayBuffer], { type: file.type });
 
       const response = await axios.put(
-        `${CORS_ANYWHERE_URL}https://kneib5mp53.execute-api.us-west-2.amazonaws.com/dev/folder/bucket-rodval/${filename}`,
+        `${CORS_PROXY}https://kneib5mp53.execute-api.us-west-2.amazonaws.com/dev/folder/bucket-rodval/${filename}`,
         fileBlob,
         {
           headers: {
@@ -1125,7 +1125,7 @@ export default function AutomatizacionesSTOLForm() {
           }}
           className="button button-primary"
           disabled={loading}
-          style={{ float: "right" }}
+          style={{ float: "left" }}
         >
           {loading ? "Recargando..." : "Recargar Tabla"}
         </button>
